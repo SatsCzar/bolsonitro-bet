@@ -10,17 +10,7 @@ const runBot = () => {
 
   bot.command("start", async (ctx) => {
     try {
-      await ctx.reply("Eu sou um robô")
-    } catch (error) {
-      console.log(error)
-    }
-  })
-
-  bot.command("bitcoin", async (ctx) => {
-    try {
-      const precoBitcoin = 125000
-
-      await ctx.reply(`O preço do Bitcoin é: ${precoBitcoin}`)
+      await ctx.reply("Hello, I'm a Robot")
     } catch (error) {
       console.log(error)
     }
@@ -50,7 +40,7 @@ const runBot = () => {
   })
 
   bot.launch()
-  console.log("🤖 Bot funcionando \n")
+  console.log("🤖 Bot Working \n")
 
   return bot
 }

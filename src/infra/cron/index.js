@@ -16,7 +16,7 @@ const cronJobs = (bot) => {
 
   const isCronScheduleValid = cronValidator.isValidCron(cronSchedule)
 
-  if (!isCronScheduleValid) throw new Error(`Expressão ${cronSchedule} inválida`)
+  if (!isCronScheduleValid) throw new Error(`Cron expression ${cronSchedule} invalid`)
 
   new CronJob(
     cronSchedule,
@@ -28,9 +28,9 @@ const cronJobs = (bot) => {
     "America/Sao_Paulo",
   )
 
-  const cronPortuguese = cronsTrue.toString(cronSchedule, { locale: "pt_BR" })
+  const cronPortuguese = cronsTrue.toString(cronSchedule, { locale: "en" })
 
-  console.log(`⌚ CronJob rodando ${cronPortuguese}`)
+  console.log(`⌚ CronJob running ${cronPortuguese}`)
 }
 
 module.exports = cronJobs
