@@ -21,6 +21,7 @@ const createDepositIntent = (injection) =>
     setup: (ctx) => {
       ctx.di = Object.assign({}, dependency, injection)
       ctx.di.depositIntentionsDatabase = new ctx.di.DepositIntentionsRepository()
+      ctx.data = {}
     },
 
     "Verify request": step((ctx) => {
@@ -47,20 +48,24 @@ const createDepositIntent = (injection) =>
         })
 
       ctx.ret = {
-        invoice: response.ok,
+        invoice: response.ok.invoice,
       }
+
+      ctx.data.invoiceId = response.ok.id
 
       return Ok()
     }),
 
     "Create deposit intent in database": step(async (ctx) => {
       const { depositIntentionsDatabase } = ctx.di
+      const { invoiceId } = ctx.data
       const { invoice } = ctx.ret
       const { amount, chatId } = ctx.req
 
       const intent = DepositIntent.fromJSON({
         amount,
         chatId,
+        invoiceId,
         invoice,
         status: depositStatusEnum.pending,
       })

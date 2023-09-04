@@ -8,6 +8,7 @@ const DepositIntent = entity("Deposit Intent", {
   chatId: field(Number),
   status: field(String, { validation: { contains: { allowed: Object.values(depositStatusEnum) } } }),
   invoice: field(String),
+  invoiceId: field(String),
 })
 
 module.exports = herbarium.entities.add(DepositIntent, "DepositIntent").entity

@@ -12,6 +12,7 @@ exports.up = async function (knex) {
       table.integer("amount").notNullable()
       table.integer("chat_id").notNullable()
       table.enum("status", Object.values(depositStatusEnum)).notNullable()
+      table.string("invoice_id").notNullable()
       table.string("invoice").notNullable()
     })
   })
