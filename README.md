@@ -1,6 +1,6 @@
-# Telegram Bot Example Project
+# bolsonitro-bet
 
-Welcome to the Telegram Bot Example project. This is a node.js-based project for creating a telegram bot with several pre-set features. This bot uses environment variables for the bot token, the owner's chat ID and a cron schedule for periodic tasks.
+This is a proof-of-concept project focused on integrating with Bitcoin's Lightning Network through a Telegram robot. The aim is to demonstrate how Bitcoin transactions can be handled quickly and securely using the Lightning Network.
 
 ## Setup
 
@@ -10,17 +10,22 @@ Welcome to the Telegram Bot Example project. This is a node.js-based project for
 ### Instructions
 1. Clone the repository on your local system.
 ```
-git clone git@github.com:SatsCzar/telegram-bot-example.git
+git clone https://github.com/SatsCzar/bolsonitro-bet.git
 ```
 2. Install dependencies with npm.
 ```
 npm install
 ```
-3. Copy the `.env.example` file and rename it to `.env`. This file contains necessary environment variables for the project. Fill in the appropriate values for the TOKEN (Your Telegram bot token), OWNER_CHAT_ID (Telegram ID of the owner), and CRON_SCHEDULE (Cron syntax for setting up tasks).
+3. Run the database migration to create tables in the SQLite database.
+```
+npm run knex:migrate
+```
+
+4. Copy the `.env.example` file and rename it to `.env`. This file contains necessary environment variables for the project. Fill in the appropriate values for the TOKEN (Your Telegram bot token), OWNER_CHAT_ID (Telegram ID of the owner), and CRON_SCHEDULE (Cron syntax for setting up tasks).
 
 **NOTE**: The `.env.example` file comes with preset values. Ensure to replace them with your actual data.
 
-4. Start the application.
+5. Start the application.
 ```
 npm run start
 ```
