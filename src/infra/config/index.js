@@ -5,4 +5,5 @@ module.exports = {
   ownerChatId: process.env.OWNER_CHAT_ID,
   cron: require("./cron"),
   lightning: require("./lightning"),
+  database: require("./database"),
 }
