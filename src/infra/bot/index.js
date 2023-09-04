@@ -19,12 +19,13 @@ const runBot = () => {
   bot.command("deposit", async (ctx) => {
     try {
       const amount = ctx.state.command.splitArgs[0]
+      const chatId = ctx.message.chat.id
 
       const usecase = createDepositIntent()
 
       await usecase.authorize()
 
-      const response = await usecase.run({ amount })
+      const response = await usecase.run({ amount, chatId })
 
       if (response.isErr) {
         await ctx.reply(response.err.message || response.err)
