@@ -2,12 +2,12 @@ const { usecase, step, Ok, Err, checker } = require("@herbsjs/herbs")
 const { herbarium } = require("@herbsjs/herbarium")
 const DepositIntent = require("../entities/DepositIntent")
 const LightningClient = require("../../infra/clients/LightningClient")
-const DepositIntentRepository = require("../../infra/database/repositories/DepositIntentRepository")
+const DepositIntentionsRepository = require("../../infra/database/repositories/DepositIntentionsRepository")
 const depositStatusEnum = require("../enums/depositStatusEnum")
 
 const dependency = {
   LightningClient,
-  DepositIntentRepository,
+  DepositIntentionsRepository,
 }
 
 const createDepositIntent = (injection) =>
@@ -20,7 +20,7 @@ const createDepositIntent = (injection) =>
 
     setup: (ctx) => {
       ctx.di = Object.assign({}, dependency, injection)
-      ctx.di.depositIntentDatabase = new ctx.di.DepositIntentRepository()
+      ctx.di.depositIntentionsDatabase = new ctx.di.DepositIntentionsRepository()
     },
 
     "Verify request": step((ctx) => {
@@ -54,7 +54,7 @@ const createDepositIntent = (injection) =>
     }),
 
     "Create deposit intent in database": step(async (ctx) => {
-      const { depositIntentDatabase } = ctx.di
+      const { depositIntentionsDatabase } = ctx.di
       const { invoice } = ctx.ret
       const { amount, chatId } = ctx.req
 
@@ -65,7 +65,7 @@ const createDepositIntent = (injection) =>
         status: depositStatusEnum.pending,
       })
 
-      await depositIntentDatabase.insert(intent)
+      await depositIntentionsDatabase.insert(intent)
 
       return Ok()
     }),
