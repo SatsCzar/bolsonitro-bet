@@ -6,7 +6,7 @@ module.exports = {
       filename: "database.sqlite",
     },
     migrations: {
-      directory: "./src/infra/data/database/migrations",
+      directory: "./src/infra/database/migrations",
       tableName: "knex_migrations",
     },
   },

@@ -28,6 +28,7 @@
     "dotenv": "^16.3.1",
     "lightning": "^9.11.3",
     "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6",
     "telegraf": "^4.12.2"
   },
   "devDependencies": {

@@ -5,6 +5,6 @@ module.exports = {
   client: "sqlite3",
   useNullAsDefault: true,
   connection: {
-    filename: "file.sqlite:memDb1?mode=memory&cache=shared",
+    filename: "database.sqlite",
   },
 }
