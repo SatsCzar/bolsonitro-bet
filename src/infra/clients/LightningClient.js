@@ -1,5 +1,5 @@
 const { Ok, Err } = require("@herbsjs/herbs")
-const { createInvoice } = require("lightning")
+const { createInvoice, getInvoice } = require("lightning")
 const { connection } = require("../lightning/connection")
 
 class LightningClient {
@@ -18,7 +18,12 @@ class LightningClient {
     }
   }
 
-      return Ok(invoice)
+  async checkInvoice(invoice) {
+    try {
+      const request = { lnd: connection, id: invoice }
+      const getInvoiceResponse = await getInvoice(request)
+
+      return Ok(getInvoiceResponse)
     } catch (error) {
       return Err()
     }
