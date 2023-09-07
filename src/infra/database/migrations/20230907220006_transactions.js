@@ -13,7 +13,7 @@ exports.up = async function (knex) {
       table.integer("chat_id").notNullable()
       table.date("date").notNullable()
       table.enum("type", Object.values(transactionTypesEnum)).notNullable()
-      table.integer("intention_id").references("id").inTable("transactions").notNullable().unique()
+      table.integer("intention_id").references("id").inTable("transactions").unique()
     })
   })
 }
