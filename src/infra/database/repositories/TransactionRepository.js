@@ -12,6 +12,14 @@ class TransactionRepository extends Repository {
       knex: connection,
     })
   }
+
+  findAllByChatId(chatId) {
+    return this.find({
+      where: {
+        chat_id: chatId,
+      },
+    })
+  }
 }
 
 module.exports = herbarium.repositories

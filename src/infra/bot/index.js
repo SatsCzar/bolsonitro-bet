@@ -2,6 +2,7 @@ const { Telegraf } = require("telegraf")
 const commandParts = require("@satsczar/telegraf-command-parts")
 const config = require("../config")
 const createDepositIntent = require("../../domain/usecases/createDepositIntent")
+const checkBalance = require("../../domain/usecases/checkBalance")
 
 const runBot = () => {
   const bot = new Telegraf(config.token)
@@ -35,6 +36,29 @@ const runBot = () => {
       const { invoice } = response.ok
 
       await ctx.reply(invoice)
+    } catch (error) {
+      console.log(error)
+    }
+  })
+
+  bot.command("balance", async (ctx) => {
+    try {
+      const chatId = ctx.message.chat.id
+
+      const usecase = checkBalance()
+
+      await usecase.authorize()
+
+      const response = await usecase.run({ chatId })
+
+      if (response.isErr) {
+        await ctx.reply(response.err.message || response.err)
+        return
+      }
+
+      const { balance } = response.ok
+
+      await ctx.reply(`Your balance is ${balance} sats`)
     } catch (error) {
       console.log(error)
     }
