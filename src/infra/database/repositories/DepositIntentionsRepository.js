@@ -8,7 +8,7 @@ class DepositIntentionsRepository extends Repository {
   constructor() {
     super({
       entity: DepositIntent,
-      table: "depositIntentions",
+      table: "deposit_intentions",
       knex: connection,
     })
   }

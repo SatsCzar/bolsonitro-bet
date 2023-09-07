@@ -5,9 +5,9 @@ const depositStatusEnum = require("../../../domain/enums/depositStatusEnum")
  * @returns { Promise<void> }
  */
 exports.up = async function (knex) {
-  return knex.schema.hasTable("depositIntentions").then((exists) => {
+  return knex.schema.hasTable("deposit_intentions").then((exists) => {
     if (exists) return
-    return knex.schema.createTable("depositIntentions", (table) => {
+    return knex.schema.createTable("deposit_intentions", (table) => {
       table.increments("id").primary()
       table.integer("amount").notNullable()
       table.integer("chat_id").notNullable()
@@ -23,5 +23,5 @@ exports.up = async function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists("depositIntentions")
+  return knex.schema.dropTableIfExists("deposit_intentions")
 }
