@@ -33,28 +33,14 @@ const CheckBalance = (injection) =>
       return Ok()
     }),
 
-    "Find all user transactions": step(async (ctx) => {
+    "Get balance in database": step(async (ctx) => {
       const { transactionRepositoryInstance } = ctx.di
       const { chatId } = ctx.req
 
-      const transactions = await transactionRepositoryInstance.findAllByChatId(chatId)
-
-      if (checker.isEmpty(transactions)) {
-        ctx.ret = { balance: 0 }
-        return Ok(ctx.stop())
-      }
-
-      ctx.data.transactions = transactions
-
-      return Ok()
-    }),
-
-    "Calculates user balance": step((ctx) => {
-      const { transactions } = ctx.data
-
-      const balance = transactions.reduce((acc, current) => (acc += current.amount), 0)
+      const balance = await transactionRepositoryInstance.getBalanceByChatId(chatId)
 
       ctx.ret = { balance }
+
       return Ok()
     }),
   })

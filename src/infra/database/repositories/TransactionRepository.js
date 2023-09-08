@@ -19,6 +19,12 @@ class TransactionRepository extends Repository {
       },
     })
   }
+
+  async getBalanceByChatId(chatId) {
+    const result = await this.knex.raw("SELECT SUM(amount) as balance FROM transactions where chat_id = ?", [chatId])
+
+    return result[0].balance
+  }
 }
 
 module.exports = herbarium.repositories
