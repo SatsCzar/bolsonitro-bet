@@ -3,6 +3,8 @@ const commandParts = require("@satsczar/telegraf-command-parts")
 const config = require("../config")
 const createDepositIntent = require("../../domain/usecases/createDepositIntent")
 const checkBalance = require("../../domain/usecases/checkBalance")
+const { checker } = require("@herbsjs/herbs")
+const makeBet = require("../../domain/usecases/makeBet")
 
 const runBot = () => {
   const bot = new Telegraf(config.token)
@@ -21,6 +23,13 @@ const runBot = () => {
     try {
       const amount = ctx.state.command.splitArgs[0]
       const chatId = ctx.message.chat.id
+
+      if (checker.isEmpty(amount)) {
+        await ctx.reply("Please enter the number of satoshis\nExample: /deposit 5000", {
+          parse_mode: "Markdown",
+        })
+        return
+      }
 
       const usecase = createDepositIntent()
 
@@ -59,6 +68,42 @@ const runBot = () => {
       const { balance } = response.ok
 
       await ctx.reply(`Your balance is ${balance} sats`)
+    } catch (error) {
+      console.log(error)
+    }
+  })
+
+  bot.command("bet", async (ctx) => {
+    try {
+      const amount = ctx.state.command.splitArgs[0]
+      const chatId = ctx.message.chat.id
+
+      if (checker.isEmpty(amount)) {
+        await ctx.reply("Please enter the number of satoshis\nExample: /bet 5000", {
+          parse_mode: "Markdown",
+        })
+        return
+      }
+
+      const usecase = makeBet()
+
+      await usecase.authorize()
+
+      const response = await usecase.run({ amount: Number(amount), chatId })
+
+      if (response.isErr) {
+        await ctx.reply(response.err.message || response.err)
+        return
+      }
+
+      const { win, prize } = response.ok
+
+      if (!win) {
+        await ctx.reply("Unfortunately, it wasn't this time.")
+        return
+      }
+
+      await ctx.reply(`Congratulation, you won: ${prize}`)
     } catch (error) {
       console.log(error)
     }
