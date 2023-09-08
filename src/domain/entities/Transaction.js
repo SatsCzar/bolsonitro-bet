@@ -9,6 +9,7 @@ const Transaction = entity("Transaction", {
   date: field(Date),
   type: field(String, { validation: { contains: { allowed: Object.values(transactionTypesEnum) } } }),
   intentionId: field(Number),
+  betId: field(Number),
 })
 
 module.exports = herbarium.entities.add(Transaction, "Transaction").entity
