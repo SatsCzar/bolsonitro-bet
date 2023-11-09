@@ -14,8 +14,8 @@ const dependency = {
   checkBalance,
 }
 
-const CheckBalance = (injection) =>
-  usecase("Check balance by ChatId", {
+const makeBet = (injection) =>
+  usecase("Make Bet", {
     request: { chatId: Number, amount: Number },
 
     response: { win: Boolean, prize: Number },
@@ -65,7 +65,7 @@ const CheckBalance = (injection) =>
       return Ok()
     }),
 
-    "Creates the bet entity and stores it in the database": step({
+    "Creates the bet entity, make the drawn and save in database": step({
       "Creates the bet entity": step((ctx) => {
         const { amount } = ctx.req
 
@@ -74,6 +74,14 @@ const CheckBalance = (injection) =>
         })
 
         ctx.data.bet = bet
+        return Ok()
+      }),
+
+      "Performs the draw": step((ctx) => {
+        const { bet } = ctx.data
+
+        bet.makeDraw()
+
         return Ok()
       }),
 
@@ -97,7 +105,7 @@ const CheckBalance = (injection) =>
     }),
 
     "Debits the bet amount from the user's account": step({
-      "Create transaction entity": step((ctx) => {
+      "Create debit transaction entity": step((ctx) => {
         const { chatId, amount } = ctx.req
         const { bet } = ctx.data
 
@@ -130,30 +138,6 @@ const CheckBalance = (injection) =>
       }),
     }),
 
-    "Performs the draw": step((ctx) => {
-      const { bet } = ctx.data
-
-      bet.makeDraw()
-
-      return Ok()
-    }),
-
-    "Update the bet in the database": step(async (ctx) => {
-      const { betRepositoryInstance } = ctx.di
-      const { bet } = ctx.data
-
-      try {
-        await betRepositoryInstance.update(bet)
-
-        return Ok()
-      } catch (error) {
-        return Err.unknown({
-          message: "Error while try to update bet in database",
-          cause: error.message,
-        })
-      }
-    }),
-
     "Check the result of the draw and proceed": ifElse({
       "Result was GAIN?": step((ctx) => {
         const { bet } = ctx.data
@@ -161,7 +145,8 @@ const CheckBalance = (injection) =>
       }),
 
       "Then: Credit the prize and set up the return": step({
-        "Create transaction entity": step((ctx) => {
+        "Create credit transaction entity": step(async (ctx) => {
+          const { transactionRepositoryInstance } = ctx.di
           const { chatId } = ctx.req
           const { bet } = ctx.data
 
@@ -173,16 +158,8 @@ const CheckBalance = (injection) =>
             betId: bet.id,
           })
 
-          ctx.data.prizeTransaction = transaction
-
-          return Ok()
-        }),
-
-        "Save in database": step(async (ctx) => {
-          const { transactionRepositoryInstance } = ctx.di
-          const { prizeTransaction } = ctx.data
           try {
-            await transactionRepositoryInstance.insert(prizeTransaction)
+            await transactionRepositoryInstance.insert(transaction)
 
             return Ok()
           } catch (error) {
@@ -215,4 +192,4 @@ const CheckBalance = (injection) =>
     }),
   })
 
-module.exports = herbarium.usecases.add(CheckBalance, "CheckBalance").metadata({ group: "Bet", entity: Bet }).usecase
+module.exports = herbarium.usecases.add(makeBet, "MakeBet").metadata({ group: "Bet", entity: Bet }).usecase
