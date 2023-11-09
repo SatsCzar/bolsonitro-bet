@@ -33,3 +33,9 @@ Your bot should now be running.
 
 ## Bot Commands
 Bot commands can be added and declared in the `src/infra/bot/index.js` file.
+
+## Dependencies
+Before setting up the project, you need to have Polar Lightning installed, which is used for testing purposes. Polar Lightning is a type of RegTest environment specifically designed for the Bitcoin Lightning Network. It helps in simulating the network for development and testing.
+
+For more information and to download Polar Lightning, visit their official website:
+Polar Lightning
