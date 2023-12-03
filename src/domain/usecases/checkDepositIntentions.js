@@ -177,4 +177,4 @@ const checkDepositIntentions = (injection) =>
 
 module.exports = herbarium.usecases
   .add(checkDepositIntentions, "checkDepositIntentions")
-  .metadata({ group: "Deposit" }).usecase
+  .metadata({ group: "Balance" }).usecase

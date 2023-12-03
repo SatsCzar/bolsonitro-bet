@@ -78,4 +78,4 @@ const createDepositIntent = (injection) =>
 
 module.exports = herbarium.usecases
   .add(createDepositIntent, "CreateDepositIntent")
-  .metadata({ group: "Deposit" }).usecase
+  .metadata({ group: "Balance" }).usecase

@@ -47,4 +47,4 @@ const CheckBalance = (injection) =>
 
 module.exports = herbarium.usecases
   .add(CheckBalance, "CheckBalance")
-  .metadata({ group: "Deposit", entity: Transaction }).usecase
+  .metadata({ group: "Balance", entity: Transaction }).usecase
