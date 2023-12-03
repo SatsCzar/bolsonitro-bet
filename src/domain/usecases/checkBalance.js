@@ -39,7 +39,7 @@ const CheckBalance = (injection) =>
 
       const balance = await transactionRepositoryInstance.getBalanceByChatId(chatId)
 
-      ctx.ret = { balance }
+      ctx.ret = { balance: balance || 0 }
 
       return Ok()
     }),

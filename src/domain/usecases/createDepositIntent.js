@@ -66,7 +66,7 @@ const createDepositIntent = (injection) =>
         amount,
         chatId,
         invoiceId,
-        invoice,
+        bolt11: invoice,
         status: depositStatusEnum.pending,
       })
 

@@ -7,7 +7,7 @@ const DepositIntent = entity("Deposit Intent", {
   amount: field(Number),
   chatId: field(Number),
   status: field(String, { validation: { contains: { allowed: Object.values(depositStatusEnum) } } }),
-  invoice: field(String),
+  bolt11: field(String),
   invoiceId: field(String),
 })
 
