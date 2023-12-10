@@ -92,21 +92,6 @@ const MakeWithdraw = (injection) =>
         }),
 
         "Else: Pay the invoice and register the withdrawal transaction": step({
-          "Pay the invoice": step(async (ctx) => {
-            const { bolt11 } = ctx.req
-            const lightningClient = new ctx.di.LightningClient()
-
-            const result = await lightningClient.payInvoice(bolt11)
-
-            if (result.isErr)
-              return Err.unknown({
-                message: "Error when trying to pay the invoice",
-                cause: result.err,
-              })
-
-            return Ok()
-          }),
-
           "Saves the withdrawal transaction": step(async (ctx) => {
             const { decodedBolt11 } = ctx.data
             const { chatId } = ctx.req
@@ -129,6 +114,21 @@ const MakeWithdraw = (injection) =>
                 cause: error.message,
               })
             }
+          }),
+
+          "Pay the invoice": step(async (ctx) => {
+            const { bolt11 } = ctx.req
+            const lightningClient = new ctx.di.LightningClient()
+
+            const result = await lightningClient.payInvoice(bolt11)
+
+            if (result.isErr)
+              return Err.unknown({
+                message: "Error when trying to pay the invoice",
+                cause: result.err,
+              })
+
+            return Ok()
           }),
         }),
       }),
