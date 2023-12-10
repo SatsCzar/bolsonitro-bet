@@ -1,6 +1,7 @@
 const { entity, field, id } = require("@herbsjs/herbs")
 const { herbarium } = require("@herbsjs/herbarium")
 const betResultEnum = require("../enums/betResultEnum")
+const generateRandomNumber = require("../helpers/random")
 
 const Bet = entity("Bet", {
   id: id(Number),
@@ -10,11 +11,9 @@ const Bet = entity("Bet", {
   prize: field(Number),
 
   makeDraw() {
-    const randomNumber = Math.random()
+    this.randomNumber = generateRandomNumber()
 
-    this.randomNumber = randomNumber
-
-    const win = randomNumber > 0.5 ? true : false
+    const win = this.randomNumber > 0.5 ? true : false
 
     if (win) {
       this.result = betResultEnum.gain
