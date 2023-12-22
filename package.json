@@ -20,7 +20,7 @@
   "dependencies": {
     "@herbsjs/herbarium": "^1.5.0",
     "@herbsjs/herbs": "^2.0.0",
-    "@herbsjs/herbs2knex": "^2.1.1",
+    "@herbsjs/herbs2knex": "github:SatsCzar/herbs2knex",
     "@herbsjs/herbsshelf": "^5.1.0-beta.9",
     "@satsczar/telegraf-command-parts": "^1.0.4",
     "bolt11": "^1.4.1",
