@@ -1,7 +1,7 @@
 const { usecase, step, Ok, Err, checker } = require("@herbsjs/herbs")
 const { herbarium } = require("@herbsjs/herbarium")
 const TransactionRepository = require("../../infra/database/repositories/TransactionRepository")
-const Transaction = require("../entities/transaction")
+const Transaction = require("../entities/Transaction")
 
 const dependency = {
   TransactionRepository,

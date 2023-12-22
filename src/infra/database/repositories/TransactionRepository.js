@@ -1,7 +1,7 @@
 const { Repository } = require("@herbsjs/herbs2knex")
 const { herbarium } = require("@herbsjs/herbarium")
 const connection = require("../connection")
-const Transaction = require("../../../domain/entities/transaction")
+const Transaction = require("../../../domain/entities/Transaction")
 
 class TransactionRepository extends Repository {
   constructor() {
